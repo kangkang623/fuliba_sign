@@ -31,7 +31,7 @@ def checkin(url):
     session.post(login_url, data=data, headers=headers)
     user_info = session.get('http://' + url + '/forum.php?mobile=no').text
     checkin_url = re.search(r'}function fx_checkin(.*?);', user_info).group(1)[47:-2]
-    session.get('http://' + url + '/'+ checkin_url ).text
+    session.get('http://' + url + '/'+ checkin_url).text
     print('%s %s Check in Success！' % (today, now))
     current_money = re.search(r'<a.*? id="extcreditmenu".*?>(.*?)</a>', user_info).group(1)
     print(current_money)
