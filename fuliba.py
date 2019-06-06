@@ -1,3 +1,5 @@
+# -*- coding:utf-8 -*-
+
 import requests
 import re
 import datetime
@@ -17,8 +19,8 @@ def checkin(url):
     now = str(time.strftime("%H:%M:%S"))
     session = requests.session()
     data = {'fastloginfield':'username',
-            'username': '用户名',  #请自行修改
-            'password': '密码',    #请自行修改
+            'username': 'username', # 用户名，自行修改
+            'password': 'password', # 密码，自行修改
             'questionid': 0,
             'answer': ''}
     headers = {'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
@@ -33,9 +35,13 @@ def checkin(url):
     checkin_url = re.search(r'}function fx_checkin(.*?);', user_info).group(1)[47:-2]
     session.get('http://' + url + '/'+ checkin_url).text
     print('%s %s Check in Success！' % (today, now))
+    user_info = session.get('http://' + url + '/forum.php?mobile=no').text
     current_money = re.search(r'<a.*? id="extcreditmenu".*?>(.*?)</a>', user_info).group(1)
     print(current_money)
 
-if __name__ == '__main__':
+def main():
     base_url = 'http://www.lao4g.com/'
     checkin(get_url(base_url))
+
+if __name__ == '__main__':
+    main()
