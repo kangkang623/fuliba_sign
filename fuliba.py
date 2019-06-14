@@ -4,13 +4,16 @@ import requests
 import re
 import datetime
 import time
+from lxml import etree
 
 def get_url(url):
     response = requests.get(url)
     if response.status_code == 200:
         response.encoding = 'UTF-16LE'
-        bbs_url=re.findall(r'<p>万能的福利吧/福利吧论坛<a href="http://(.*?)" target="_blank">', response.text,re.I)
-        return bbs_url[0]
+        res = etree.HTML(response.content)
+        bbs_url = res.xpath('/html/body/div[1]/div/div/ul/li[2]/a/i/text()')[0]
+        bbs_url = bbs_url.replace('http://', '')
+        return bbs_url
     else:
         print('Please check the network!')
 
@@ -41,6 +44,7 @@ def checkin(url):
 
 def main():
     base_url = 'http://www.lao4g.com/'
+    #print(get_url(base_url))
     checkin(get_url(base_url))
 
 if __name__ == '__main__':
