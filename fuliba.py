@@ -22,8 +22,8 @@ def checkin(url):
     now = str(time.strftime("%H:%M:%S"))
     session = requests.session()
     data = {'fastloginfield':'username',
-            'username': 'username', # 用户名，自行修改
-            'password': 'password', # 密码，自行修改
+            'username': 'username',
+            'password': 'password',
             'questionid': 0,
             'answer': ''}
     headers = {'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
@@ -37,7 +37,7 @@ def checkin(url):
     user_info = session.get('http://' + url + '/forum.php?mobile=no').text
     checkin_url = re.search(r'}function fx_checkin(.*?);', user_info).group(1)[47:-2]
     session.get('http://' + url + '/'+ checkin_url).text
-    print('%s %s Check in Success！' % (today, now))
+    print('%s %s Check in Success!' % (today, now))
     user_info = session.get('http://' + url + '/forum.php?mobile=no').text
     current_money = re.search(r'<a.*? id="extcreditmenu".*?>(.*?)</a>', user_info).group(1)
     print(current_money)
