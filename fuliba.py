@@ -32,13 +32,13 @@ def checkin(url):
                'cache-control':'max-age=0',
                'Host':url,
                'User-Agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.25 Mobile Safari/537.36'}
-    login_url = 'http://'+ url + '/member.php?mod=logging&action=login&loginsubmit=yes&infloat=yes&lssubmit=yes&inajax=1'
+    login_url = 'https://'+ url + '/member.php?mod=logging&action=login&loginsubmit=yes&infloat=yes&lssubmit=yes&inajax=1'
     session.post(login_url, data=data, headers=headers)
-    user_info = session.get('http://' + url + '/forum.php?mobile=no').text
+    user_info = session.get('https://' + url + '/forum.php?mobile=no').text
     checkin_url = re.search(r'}function fx_checkin(.*?);', user_info).group(1)[47:-2]
-    session.get('http://' + url + '/'+ checkin_url).text
+    session.get('https://' + url + '/'+ checkin_url).text
     print('%s %s Check in Success!' % (today, now))
-    user_info = session.get('http://' + url + '/forum.php?mobile=no').text
+    user_info = session.get('https://' + url + '/forum.php?mobile=no').text
     current_money = re.search(r'<a.*? id="extcreditmenu".*?>(.*?)</a>', user_info).group(1)
     print(current_money)
 
